@@ -1,0 +1,479 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 10px;
+            color: #333333;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: #0099ff;
+        }
+
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .nav-dropdown-item {
+            padding: 10px;
+        }
+
+        .nav-dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-dropdown-link {
+            display: block;
+            color: #333333;
+            text-decoration: none;
+        }
+
+        .nav-dropdown-link:hover {
+            color: #0099ff;
+        }
+
+        .content {
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detail {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #0099ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Sensor Data</div>
+            <div class="nav">
+                <div class="nav-item">
+                    <a href="#" class="nav-link" id="state-link">State</a>
+                    <div class="nav-dropdown" id="state-dropdown">
+                        <div class="nav-dropdown-item">
+                            <a href="#" class="nav-dropdown-link" data-state="Tamil Nadu">Tamil Nadu</a>
+                        </div>
+                        <div class="nav-dropdown-item">
+                            <a href="#" class="nav-dropdown-link" data-state="Karnataka">Karnataka</a>
+                        </div>
+                        <div class="nav-dropdown-item">
+                            <a href="#" class="nav-dropdown-link" data-state="Maharashtra">Maharashtra</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" id="district-link">District</a>
+                    <div class="nav-dropdown" id="district-dropdown"></div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" id="area-link">Area</a>
+                    <div class="nav-dropdown" id="area-dropdown"></div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" id="street-link">Street</a>
+                    <div class="nav-dropdown" id="street-dropdown"></div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" id="sensor-link">Sensor</a>
+                    <div class="nav-dropdown" id="sensor-dropdown"></div>
+                </div>
+            </div>
+        </div>
+        <div class="content" id="content">
+            <div class="title">Welcome to Sensor Data</div>
+            <p>This is a simple yet sleek and modern website that allows navigation to a 'details' page that contains the following details: local time, sensor1_data, sensor2_data, sensor3_data,sensor4_data,sensor5_data,sensor6_data , summary , recommended actions, forecast. The sensor data are floats, with unit of  ppm per cm square. Local  time is in standard time format.  summary is a two line sentence like "Normal, Reading are as expected. " Recommend action is i format of a two line sentence as well. like "Recommended actions : Periodic cleaning can be moved down" . Forecast is in the format of the sensor values again. The navigation is in the  format  :state > district > area > street> sensor list for that street . I have created fake names, places, data, actions myself, this website is supposed to be a sample template.  The navigation is in dropdown tone.</p>
+            <p>Please select a state from the navigation bar to begin.</p>
+        </div>
+    </div>
+    <script>
+        // Fake data for demonstration
+        var data = {
+            "Tamil Nadu": {
+                "Chennai": {
+                    "Sholinganallur": {
+                        "OMR Road": {
+                            "Sensor 1": {
+                                "local_time": "Mon, 09 Oct 2023 22:06:56 GMT+05:30",
+                                "sensor1_data": 12.34,
+                                "sensor2_data": 23.45,
+                                "sensor3_data": 34.56,
+                                "sensor4_data": 45.67,
+                                "sensor5_data": 56.78,
+                                "sensor6_data": 67.89,
+                                "summary": "Normal, Reading are as expected.",
+                                "recommended_actions": "Recommended actions: Periodic cleaning can be moved down.",
+                                "forecast": {
+                                    "sensor1_data": 13.24,
+                                    "sensor2_data": 24.35,
+                                    "sensor3_data": 35.46,
+                                    "sensor4_data": 46.57,
+                                    "sensor5_data": 57.68,
+                                    "sensor6_data": 68.79
+                                }
+                            },
+                            "Sensor 2": {
+                                // Similar data as Sensor 1
+                            }
+                        },
+                        // Other streets
+                    },
+                    // Other areas
+                },
+                // Other districts
+            },
+            // Other states
+        };
+
+        // Helper function to create dropdown items
+        function createDropdownItem(text, dataKey, dataValue) {
+            var item = document.createElement("div");
+            item.classList.add("nav-dropdown-item");
+            var link = document.createElement("a");
+            link.classList.add("nav-dropdown-link");
+            link.href = "#";
+            link.textContent = text;
+            link.setAttribute("data-" + dataKey, dataValue);
+            item.appendChild(link);
+            return item;
+        }
+
+        // Helper function to clear dropdown items
+        function clearDropdownItems(dropdown) {
+            while (dropdown.firstChild) {
+                dropdown.removeChild(dropdown.firstChild);
+            }
+        }
+
+        // Helper function to show dropdown items
+        function showDropdownItems(dropdown, items) {
+            clearDropdownItems(dropdown);
+            for (var i = 0; i < items.length; i++) {
+                dropdown.appendChild(items[i]);
+            }
+            dropdown.style.display = "block";
+        }
+
+        // Helper function to hide dropdown items
+        function hideDropdownItems(dropdown) {
+            dropdown.style.display = "none";
+        }
+
+        // Helper function to update content with details
+        function updateContentWithDetails(details) {
+            clearContent();
+            var title = document.createElement("div");
+            title.classList.add("title");
+            title.textContent = details.local_time;
+            content.appendChild(title);
+            var detailKeys = ["sensor1_data", "sensor2_data", "sensor3_data", 
+                              "sensor4_data", "sensor5_data", "sensor6_data",
+                              "summary", "recommended_actions"];
+            var detailLabels = ["Sensor 1 Data", "Sensor 2 Data", "Sensor 3 Data",
+                                "Sensor 4 Data", "Sensor 5 Data", "Sensor 6 Data",
+                                "Summary", "Recommended Actions"];
+
+            for (var i = 0; i < detailKeys.length; i++) {
+                var detail = document.createElement("div");
+                detail.classList.add("detail");
+                var detailLabel = document.createElement("div");
+                detailLabel.classList.add("detail-label");
+                detailLabel.textContent = detailLabels[i] + ":";
+                var detailValue = document.createElement("div");
+                detailValue.classList.add("detail-value");
+                detailValue.textContent = details[detailKeys[i]];
+                if (i < 6) {
+                    // Add unit for sensor data
+                    detailValue.textContent += " ppm per cm square";
+                }
+                detail.appendChild(detailLabel);
+                detail.appendChild(detailValue);
+                content.appendChild(detail);
+            }
+            var forecastTitle = document.createElement("div");
+            forecastTitle.classList.add("title");
+            forecastTitle.textContent = "Forecast";
+            content.appendChild(forecastTitle);
+            var forecastKeys = ["sensor1_data", "sensor2_data", "sensor3_data", 
+                                "sensor4_data", "sensor5_data", "sensor6_data"];
+            var forecastLabels = ["Sensor 1 Data", "Sensor 2 Data", "Sensor 3 Data",
+                                  "Sensor 4 Data", "Sensor 5 Data", "Sensor 6 Data"];
+            for (var i = 0; i < forecastKeys.length; i++) {
+                var detail = document.createElement("div");
+                detail.classList.add("detail");
+                var detailLabel = document.createElement("div");
+                detailLabel.classList.add("detail-label");
+                detailLabel.textContent = forecastLabels[i] + ":";
+                var detailValue = document.createElement("div");
+                detailValue.classList.add("detail-value");
+                detailValue.textContent = details.forecast[forecastKeys[i]] + " ppm per cm square";
+                detail.appendChild(detailLabel);
+                detail.appendChild(detailValue);
+                content.appendChild(detail);
+            }
+        }
+
+        // Helper function to clear content
+        function clearContent() {
+            while (content.firstChild) {
+                content.removeChild(content.firstChild);
+            }
+        }
+
+        // Get the elements by id
+        var stateLink = document.getElementById("state-link");
+        var stateDropdown = document.getElementById("state-dropdown");
+        var districtLink = document.getElementById("district-link");
+        var districtDropdown = document.getElementById("district-dropdown");
+        var areaLink = document.getElementById("area-link");
+        var areaDropdown = document.getElementById("area-dropdown");
+        var streetLink = document.getElementById("street-link");
+        var streetDropdown = document.getElementById("street-dropdown");
+        var sensorLink = document.getElementById("sensor-link");
+        var sensorDropdown = document.getElementById("sensor-dropdown");
+        var content = document.getElementById("content");
+
+        // Add event listeners for state link and dropdown
+        stateLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (stateDropdown.style.display === "none") {
+                // Show the state dropdown items
+                var items = [];
+                for (var state in data) {
+                    items.push(createDropdownItem(state, "state", state));
+                }
+                showDropdownItems(stateDropdown, items);
+            } else {
+                // Hide the state dropdown items
+                hideDropdownItems(stateDropdown);
+            }
+        });
+
+        stateDropdown.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("nav-dropdown-link")) {
+                // Update the state link text and hide the state dropdown items
+                var state = event.target.getAttribute("data-state");
+                stateLink.textContent = state;
+                hideDropdownItems(stateDropdown);
+                // Show the district dropdown items
+                var items = [];
+                for (var district in data[state]) {
+                    items.push(createDropdownItem(district, "district", district));
+                }
+                showDropdownItems(districtDropdown, items);
+            }
+        });
+
+        // Add event listeners for district link and dropdown
+        districtLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (districtDropdown.style.display === "none") {
+                // Show the district dropdown items
+                var state = stateLink.textContent;
+                var items = [];
+                for (var district in data[state]) {
+                    items.push(createDropdownItem(district, "district", district));
+                }
+                showDropdownItems(districtDropdown, items);
+            } else {
+                // Hide the district dropdown items
+                hideDropdownItems(districtDropdown);
+            }
+        });
+
+        districtDropdown.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("nav-dropdown-link")) {
+                // Update the district link text and hide the district dropdown items
+                var district = event.target.getAttribute("data-district");
+                districtLink.textContent = district;
+                hideDropdownItems(districtDropdown);
+                // Show the area dropdown items
+                var state = stateLink.textContent;
+                var items = [];
+                for (var area in data[state][district]) {
+                    items.push(createDropdownItem(area, "area", area));
+                }
+                showDropdownItems(areaDropdown, items);
+            }
+        });
+
+        // Add event listeners for area link and dropdown
+        areaLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (areaDropdown.style.display === "none") {
+                // Show the area dropdown items
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var items = [];
+                for (var area in data[state][district]) {
+                    items.push(createDropdownItem(area, "area", area));
+                }
+                showDropdownItems(areaDropdown, items);
+            } else {
+                // Hide the area dropdown items
+                hideDropdownItems(areaDropdown);
+            }
+        });
+
+        areaDropdown.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("nav-dropdown-link")) {
+                // Update the area link text and hide the area dropdown items
+                var area = event.target.getAttribute("data-area");
+                areaLink.textContent = area;
+                hideDropdownItems(areaDropdown);
+                // Show the street dropdown items
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var items = [];
+                for (var street in data[state][district][area]) {
+                    items.push(createDropdownItem(street, "street", street));
+                }
+                showDropdownItems(streetDropdown, items);
+            }
+        });
+
+        // Add event listeners for street link and dropdown
+        streetLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (streetDropdown.style.display === "none") {
+                // Show the street dropdown items
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var area = areaLink.textContent;
+                var items = [];
+                for (var street in data[state][district][area]) {
+                    items.push(createDropdownItem(street, "street", street));
+                }
+                showDropdownItems(streetDropdown, items);
+            } else {
+                // Hide the street dropdown items
+                hideDropdownItems(streetDropdown);
+            }
+        });
+
+        streetDropdown.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("nav-dropdown-link")) {
+                // Update the street link text and hide the street dropdown items
+                var street = event.target.getAttribute("data-street");
+                streetLink.textContent = street;
+                hideDropdownItems(streetDropdown);
+                // Show the sensor dropdown items
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var area = areaLink.textContent;
+                var items = [];
+                for (var sensor in data[state][district][area][street]) {
+                    items.push(createDropdownItem(sensor, "sensor", sensor));
+                }
+                showDropdownItems(sensorDropdown, items);
+            }
+        });
+
+        // Add event listeners for sensor link and dropdown
+        sensorLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (sensorDropdown.style.display === "none") {
+                // Show the sensor dropdown items
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var area = areaLink.textContent;
+                var street = streetLink.textContent;
+                var items = [];
+                for (var sensor in data[state][district][area][street]) {
+                    items.push(createDropdownItem(sensor, "sensor", sensor));
+                }
+                showDropdownItems(sensorDropdown, items);
+            } else {
+                // Hide the sensor dropdown items
+                hideDropdownItems(sensorDropdown);
+            }
+        });
+
+        sensorDropdown.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (event.target.classList.contains("nav-dropdown-link")) {
+                // Update the sensor link text and hide the sensor dropdown items
+                var sensor = event.target.getAttribute("data-sensor");
+                sensorLink.textContent = sensor;
+                hideDropdownItems(sensorDropdown);
+                // Update the content with the sensor details
+                var state = stateLink.textContent;
+                var district = districtLink.textContent;
+                var area = areaLink.textContent;
+                var street = streetLink.textContent;
+                var details = data[state][district][area][street][sensor];
+                updateContentWithDetails(details);
+            }
+        });
+    </script>
+</body>
+</html>
+
